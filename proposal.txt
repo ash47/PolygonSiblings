@@ -1,0 +1,105 @@
+Polygon Siblings (Working Title)
+
+##Project Goals##
+ - Create an open source and portable version of Super Smash Brothers, although it won't be as feature rich, due to the time limitations
+ - Create a decent API enabling others to create loads of new characters and items, without too much knowledge of the internals
+ - Create something that is actually FUN to play :)
+
+##Gameplay Overview##
+ - The game is a 2.5D side scroller.
+ - Players can only move in two dimensions, although the world / maps will be in 3D.
+ - The aim of the game is to knock other players out of the arena / world
+ - Players initial won't be thrown far with attacks, however as they become more damaged, they will be thrown further until eventually they are knocked out of the arena
+ - Items will randomly spawn around the arena, giving players who get to them a small advantage, or temporary powerup
+ - The objective of the game is to be the last player alive
+
+##Hardware inputs##
+ - This kind of game is best played with other players, so it would be ideal if many control schemes could be implemented, including keyboard / mouse, 360 controllers and an onscreen "gamepad", so it can be played without any extra accessories
+ - The game should work on all windows 8 machines, and hence, accelerometers and other unique inputs on tablets won't play a huge roll, however the following ideas could be interesting to play with
+  - One person can control the world by rotating the screen, affecting the gravity of the world, and causing the fighters to fall
+  - Unique camera angles could be found by moving the tablet around (as you move the tablet around, the camera rotates around the world), especially when the game is paused, allowing players to take cool screenshots
+
+##Visualisation##
+ - The world will be in 2.5D, with players moving left and right, up and down around the world.
+ - The camera will be
+ - The camera will zoom in and out to make sure players can't get off the screen (except in the case where they move too far away from the world, in which case, they will die)
+ - The characters will likely be very simply polygons, hopefully representing fighters
+ - The levels will generally be outdoors, and hence, pretty well lit, lighting won't play a huge roll in this game
+  - It's possible there could be day / night cycles, or different lighting in different levels, but it's not high priority
+
+##Technologies##
+To speed up development (we only have around 4 weeks), several pre made packages will be used, nothing is set in stone, but these are the current plans
+
+A physics library (likely Box2D, since we have experience with that)
+ - The physics library would be used to quickly create the 2D collisions, and allow players to be realistically thrown against the walls, and bounce off
+ - It's pretty straight forward to code this ourselves, however it's outside the scope of the project, and would take quite a long time to get something that's even remotely useable, why reinvent the wheel?
+
+Lua
+ - Lua will play a big part in this project, it will be what either makes, or breaks this project
+ - Lua is a free open source scripting language, it can be bound to basically anything, including C# and of course, sharpDX
+ - We plan to bind Lua to it ourselves, which will allow us to create the easy to use API mentioned in the project goals
+ - Ideally all the character and item actions will be implemented in Lua, which will give other developers a solid framework to build their own extensions ontop of
+ - It's very unlikely we will have time for this, but a great extension would be to allow players to share the characters and items they have created
+
+##Milestones##
+
+Minimal Viable Product
+ - Setup the project skeleton
+ - Get a camera setup, with a flat ground so we know it's working correctly
+ - Setup the physics library, and create some tests to verify the physics and graphics match up
+ - Get Lua installed and compiling with our project
+ - Create a basic character
+  - The character's code shoud be exported to Lua as much as possible, allowing for the most modifiability as possible
+  - The character should be controllable, and shouldn't fall through the world
+  - The character won't be able to interact with other character at this stage
+  - The character can be as simple as a square that moves at this stage
+  - The character will be controlled by keyboard only at this stage
+ - Create a basic level
+  - The level should have some platforms to jump around on
+  - The level should have basic lighting
+  - Lua should be used to control some aspects of the level, such as moving platforms
+ - Start to add attacks / abilities to the test character
+  - Characters should be able to attack each other, and send eachother flying
+  - There should be an onscreen display to how damaged characters are
+ - Setup gamemode specifics
+  - Once all but one player has been eliminated, the game should end
+  - Setup a time limit to ensure the matches don't last too long, and are quick enough to enjoy
+ - Create a basic item
+  - The item's code will of course be exported to Lua where possible
+  - The item should be as general as possible, allowing for it to be extended in order to create new items
+  - Characters should be able to interact with the item, picking it up / using it
+ - Make the character presentable
+  - The character should at least look like something, with some basic animations
+  - The animations should be stored externally, allowing for modability in the future, without too much hassle
+
+Minimal Product for full marks
+ - Implement a setup screen where players can select characters and basic options
+ - Implement an XAML menu to navigate back to the setup screen, as well as basic help
+ - Implement an onscreen controller, and allow players to switch between different control types via the windows 8 XAML menu
+ - Upgrade the lighting in the test level to match the spec
+ - Allow the user to pause the game, and control the camera with accelerometers
+ - Setup a basic AI opponent
+  - The control of the AI character should be exported to Lua as much as possible, so others can create unique and fun bots
+
+We're happy to stop here, however if there is enough time, we will continue to improve the gameplay
+
+Extending the game (reasonable extensions)
+ - Create extra characters
+  - Character select screen
+ - Create extra items
+ - Create more than a single level
+  - Level select screen
+ - Allow for multiple game modes
+  - More than a single life
+  - Timed
+  - Enabling / Disable certain items in the game
+
+Extending the game (Going too far?)
+ - Create a single player campaign
+  - Players will basically fight against all the characters that are implemented, earning score as they go
+ - Setup networked play, so players can use multiple devices to play the game
+  - Very doable, but really needs to be implemented from the start, and the game needs to be built around this, so it's unlikely it will happen
+ - Add a level editor, so players won't need to use raw TXT like files to setup the level
+  - The accelerometers and touch screen would be very useful here
+ - Allow players to share their customisations ingame
+  - Security issues here, as well as hosting content problems, this probably won't happen unless we have LOADS of time
