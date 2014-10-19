@@ -49,7 +49,7 @@ namespace Project
             fireTimer -= gameTime.ElapsedGameTime.Milliseconds * game.difficulty;
             if (fireTimer < 0)
             {
-                fire();
+                //fire();
                 setFireTimer();
             }
             basicEffect.World = Matrix.Translation(pos);

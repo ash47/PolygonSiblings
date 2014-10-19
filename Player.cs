@@ -7,6 +7,8 @@ using SharpDX;
 using SharpDX.Toolkit;
 using Windows.UI.Input;
 using Windows.UI.Core;
+using Box2DX.Dynamics;
+using Box2DX.Common;
 
 namespace Project
 {
@@ -18,6 +20,9 @@ namespace Project
         //private float speed = 0.006f;
         private float projectileSpeed = 20;
 
+        // The physics body
+        private Body body;
+
         public Player(LabGame game)
         {
             this.game = game;
@@ -25,11 +30,33 @@ namespace Project
             myModel = game.assets.GetModel("player", CreatePlayerModel);
             pos = new SharpDX.Vector3(0, game.boundaryBottom + 0.5f, 0);
             GetParamsFromModel();
+
+            // Define the dynamic body. We set its position and call the body factory.
+            BodyDef bodyDef = new BodyDef();
+            bodyDef.Position.Set(0.0f, 4.0f);
+            body = game.getWorld().CreateBody(bodyDef);
+
+            // Define another box shape for our dynamic body.
+            PolygonDef shapeDef = new PolygonDef();
+            shapeDef.SetAsBox(0.5f, 0.5f);
+
+            // Set the box density to be non-zero, so it will be dynamic.
+            shapeDef.Density = 1.0f;
+
+            // Override the default friction.
+            shapeDef.Friction = 0.3f;
+
+            // Add the shape to the body.
+            body.CreateFixture(shapeDef);
+
+            // Now tell the dynamic body to compute it's mass properties base
+            // on its shape.
+            body.SetMassFromShapes();
         }
 
         public MyModel CreatePlayerModel()
         {
-            return game.assets.CreateTexturedCube("player.png", 0.7f);
+            return game.assets.CreateTexturedCube("player.png", 1f);
         }
 
         // Method to create projectile texture to give to newly created projectiles.
@@ -52,14 +79,19 @@ namespace Project
         // Frame update.
         public override void Update(GameTime gameTime)
         {
-            if (game.keyboardState.IsKeyDown(Keys.Space)) { fire(); }
+            //if (game.keyboardState.IsKeyDown(Keys.Space)) { fire(); }
 
             // TASK 1: Determine velocity based on accelerometer reading
-            pos.X += (float)game.accelerometerReading.AccelerationX;
+           // pos.X += (float)game.accelerometerReading.AccelerationX;
 
             // Keep within the boundaries.
-            if (pos.X < game.boundaryLeft) { pos.X = game.boundaryLeft; }
-            if (pos.X > game.boundaryRight) { pos.X = game.boundaryRight; }
+            //if (pos.X < game.boundaryLeft) { pos.X = game.boundaryLeft; }
+            //if (pos.X > game.boundaryRight) { pos.X = game.boundaryRight; }
+
+            // Update our position
+            Vec2 physPos = body.GetPosition();
+            pos.X = physPos.X;
+            pos.Y = physPos.Y;
 
             basicEffect.World = Matrix.Translation(pos);
         }

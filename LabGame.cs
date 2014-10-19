@@ -25,6 +25,10 @@ using System.Collections.Generic;
 using Windows.UI.Input;
 using Windows.UI.Core;
 using Windows.Devices.Sensors;
+using Box2DX.Dynamics;
+using Box2DX.Collision;
+using Box2DX.Common;
+
 
 namespace Project
 {
@@ -64,6 +68,13 @@ namespace Project
         public float boundaryRight;
         public float boundaryTop;
         public float boundaryBottom;
+
+        // The physics world
+        World world;
+
+        // Physics settings
+        private static int velocityIterations = 8;
+        private static int positionIterations = 1;
 
         public bool started = false;
         /// <summary>
@@ -110,9 +121,22 @@ namespace Project
             removedGameObjects = new Stack<GameObject>();
 
             // Create game objects.
+            //player = new Player(this);
+            //gameObjects.Add(player);
+            //gameObjects.Add(new EnemyController(this));
+
+            // Create the physics world
+            AABB worldAABB = new AABB();
+            worldAABB.LowerBound.Set(-100.0f);
+            worldAABB.UpperBound.Set(100.0f);
+
+            world = new World(worldAABB, new Vec2(0.0f, -10.0f), true);
+
             player = new Player(this);
             gameObjects.Add(player);
-            gameObjects.Add(new EnemyController(this));
+
+            // Create a wall
+            gameObjects.Add(new Wall(this, 14, 1, new Vector3(0, -4, 0)));
 
             // Create an input layout from the vertices
 
@@ -131,10 +155,16 @@ namespace Project
         {
             if (started)
             {
+
+                // Instruct the world to perform a single step of simulation. It is
+                // generally best to keep the time step and iterations fixed.
+                world.Step(1/60f, velocityIterations, positionIterations);
+
                 keyboardState = keyboardManager.GetState();
                 flushAddedAndRemovedGameObjects();
                 camera.Update();
-                accelerometerReading = input.accelerometer.GetCurrentReading();
+
+                //accelerometerReading = input.accelerometer.GetCurrentReading();
                 for (int i = 0; i < gameObjects.Count; i++)
                 {
                     gameObjects[i].Update(gameTime);
@@ -159,7 +189,7 @@ namespace Project
             if (started)
             {
                 // Clears the screen with the Color.CornflowerBlue
-                GraphicsDevice.Clear(Color.CornflowerBlue);
+                GraphicsDevice.Clear(SharpDX.Color.CornflowerBlue);
 
                 for (int i = 0; i < gameObjects.Count; i++)
                 {
@@ -235,5 +265,10 @@ namespace Project
         {
         }
 
+        // Returns the world
+        public World getWorld()
+        {
+            return this.world;
+        }
     }
 }
