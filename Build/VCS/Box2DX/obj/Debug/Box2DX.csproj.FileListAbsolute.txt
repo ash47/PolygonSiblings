@@ -2,3 +2,4 @@ C:\Users\Ash\GitHub\PolygonSiblings\bin\DebugWinRTXaml\Box2DX.dll
 C:\Users\Ash\GitHub\PolygonSiblings\bin\DebugWinRTXaml\Box2DX.pdb
 C:\Users\Ash\GitHub\PolygonSiblings\Build\VCS\Box2DX\obj\Debug\Box2DX.dll
 C:\Users\Ash\GitHub\PolygonSiblings\Build\VCS\Box2DX\obj\Debug\Box2DX.pdb
+C:\Users\Ash\GitHub\PolygonSiblings\Build\VCS\Box2DX\obj\Debug\Box2DX.csprojResolveAssemblyReference.cache

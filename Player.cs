@@ -28,7 +28,7 @@ namespace Project
             this.game = game;
             type = GameObjectType.Player;
             myModel = game.assets.GetModel("player", CreatePlayerModel);
-            pos = new SharpDX.Vector3(0, game.boundaryBottom + 0.5f, 0);
+            pos = new SharpDX.Vector3(0, 0, 0);
             GetParamsFromModel();
 
             // Define the dynamic body. We set its position and call the body factory.
@@ -93,6 +93,13 @@ namespace Project
             pos.X = physPos.X;
             pos.Y = physPos.Y;
 
+            // Handle our game code
+            object[] args = new object[1];
+            args[0] = this;
+            game.callLuaFunction("updatePlayer", args);
+
+            //body.ApplyImpulse
+
             basicEffect.World = Matrix.Translation(pos);
         }
 
@@ -110,6 +117,12 @@ namespace Project
         public override void OnManipulationUpdated(GestureRecognizer sender, ManipulationUpdatedEventArgs args)
         {
             pos.X += (float)args.Delta.Translation.X / 100;
+        }
+
+        // Returns the body
+        public Body getBody()
+        {
+            return this.body;
         }
     }
 }

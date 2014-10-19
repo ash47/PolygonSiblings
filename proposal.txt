@@ -44,10 +44,10 @@ Lua
 ##Milestones##
 
 Minimal Viable Product
- - Setup the project skeleton
- - Get a camera setup, with a flat ground so we know it's working correctly
- - Setup the physics library, and create some tests to verify the physics and graphics match up
- - Get Lua installed and compiling with our project
+ - X Setup the project skeleton
+ - X Get a camera setup, with a flat ground so we know it's working correctly
+ - X Setup the physics library, and create some tests to verify the physics and graphics match up
+ - X Get Lua installed and compiling with our project
  - Create a basic character
   - The character's code shoud be exported to Lua as much as possible, allowing for the most modifiability as possible
   - The character should be controllable, and shouldn't fall through the world

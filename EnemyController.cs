@@ -45,7 +45,7 @@ namespace Project
         // Create a grid of enemies for the current wave.
         private void createEnemies()
         {
-            float y = game.boundaryTop;
+            /*float y = game.boundaryTop;
             for (int row = 0; row < rows; row++)
             {
                 float x = game.boundaryLeft;
@@ -55,7 +55,7 @@ namespace Project
                     x += colSpacing;
                 }
                 y -= rowSpacing;
-            }
+            }*/
         }
 
         // Frame update method.
@@ -96,12 +96,12 @@ namespace Project
                     if (stepRight)
                     {
                         enemy.pos.X += stepSize;
-                        if (enemy.pos.X > game.boundaryRight) { stepDownNeeded = true; }
+                        //if (enemy.pos.X > game.boundaryRight) { stepDownNeeded = true; }
                     }
                     else
                     {
                         enemy.pos.X -= stepSize;
-                        if (enemy.pos.X < game.boundaryLeft) { stepDownNeeded = true; }
+                        //if (enemy.pos.X < game.boundaryLeft) { stepDownNeeded = true; }
                     }
                 }
             }
@@ -122,7 +122,7 @@ namespace Project
                 {
                     Enemy enemy = (Enemy)obj;
                     enemy.pos.Y -= stepSize;
-                    if (enemy.pos.Y < game.boundaryBottom) { gameOver(); }
+                    //if (enemy.pos.Y < game.boundaryBottom) { gameOver(); }
                 }
             }
         }

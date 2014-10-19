@@ -22,6 +22,9 @@
     <AppxPackagedFile Include="C:\Users\Ash\GitHub\PolygonSiblings\bin\DebugWinRTXaml\Box2DX.dll">
       <PackagePath>Box2DX.dll</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Ash\GitHub\PolygonSiblings\bin\DebugWinRTXaml\NLua.dll">
+      <PackagePath>NLua.dll</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Ash\GitHub\PolygonSiblings\SharpDX\SharpDX.D3DCompiler.dll">
       <PackagePath>SharpDX.D3DCompiler.dll</PackagePath>
     </AppxPackagedFile>
@@ -63,6 +66,9 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Ash\GitHub\PolygonSiblings\SharpDX\SharpDX.XInput.dll">
       <PackagePath>SharpDX.XInput.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Ash\GitHub\PolygonSiblings\bin\DebugWinRTXaml\KeraLua.dll">
+      <PackagePath>KeraLua.dll</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Ash\GitHub\PolygonSiblings\Assets\Logo.png">
       <PackagePath>Assets\Logo.png</PackagePath>

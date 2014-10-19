@@ -28,6 +28,7 @@ using Windows.Devices.Sensors;
 using Box2DX.Dynamics;
 using Box2DX.Collision;
 using Box2DX.Common;
+using NLua;
 
 
 namespace Project
@@ -63,11 +64,8 @@ namespace Project
         // Random number generator
         public Random random;
 
-        // World boundaries that indicate where the edge of the screen is for the camera.
-        public float boundaryLeft;
-        public float boundaryRight;
-        public float boundaryTop;
-        public float boundaryBottom;
+        // Lua stuff
+        Lua lua;
 
         // The physics world
         World world;
@@ -95,12 +93,6 @@ namespace Project
             random = new Random();
             input = new GameInput();
 
-            // Set boundaries.
-            boundaryLeft = -4.5f;
-            boundaryRight = 4.5f;
-            boundaryTop = 4;
-            boundaryBottom = -4.5f;
-
             // Initialise event handling.
             input.gestureRecognizer.Tapped += Tapped;
             input.gestureRecognizer.ManipulationStarted += OnManipulationStarted;
@@ -120,32 +112,30 @@ namespace Project
             addedGameObjects = new Stack<GameObject>();
             removedGameObjects = new Stack<GameObject>();
 
-            // Create game objects.
-            //player = new Player(this);
-            //gameObjects.Add(player);
-            //gameObjects.Add(new EnemyController(this));
-
             // Create the physics world
             AABB worldAABB = new AABB();
             worldAABB.LowerBound.Set(-100.0f);
             worldAABB.UpperBound.Set(100.0f);
-
             world = new World(worldAABB, new Vec2(0.0f, -10.0f), true);
 
+            // Create a player
             player = new Player(this);
             gameObjects.Add(player);
 
             // Create a wall
-            gameObjects.Add(new Wall(this, 14, 1, new Vector3(0, -4, 0)));
+            Wall wall = new Wall(this, 14, 1, new Vector3(0, -4, 0));
+            gameObjects.Add(wall);
+
+            // Setup Lua
+            initLua();
 
             // Create an input layout from the vertices
-
             base.LoadContent();
         }
 
         protected override void Initialize()
         {
-            Window.Title = "Lab 4";
+            Window.Title = "Polygon Siblings";
             camera = new Camera(this);
 
             base.Initialize();
@@ -263,6 +253,29 @@ namespace Project
 
         public void OnManipulationCompleted(GestureRecognizer sender, ManipulationCompletedEventArgs args)
         {
+        }
+
+        // Sets up Lua
+        private void initLua()
+        {
+            // Setup Lua
+            lua = new Lua();
+
+            // Give lua full access to our classes
+            lua.LoadCLRPackage();
+
+            // Copy some variables into Lua
+            lua["game"] = this;
+            lua["util"] = new LuaGlobals();
+
+            // Run the setup
+            lua.DoFile("Assets/lua/init.lua");
+        }
+
+        public void callLuaFunction(String name, object[] args)
+        {
+            // Tell lua to update
+            lua.GetFunction(name).Call(args);
         }
 
         // Returns the world

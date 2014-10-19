@@ -62,5 +62,10 @@ namespace Project
 
             basicEffect.World = Matrix.Translation(pos);
         }
+
+        // Returns the body
+        public Body getBody() {
+            return this.body;
+        }
     }
 }

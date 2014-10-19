@@ -20,17 +20,21 @@
     <AppXManifest Include="C:\Users\Ash\GitHub\PolygonSiblings\bin\DebugWinRTXaml\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2014-10-19T09:26:23.109</Modified>
+      <Modified>2014-10-19T12:04:33.187</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Ash\GitHub\PolygonSiblings\bin\DebugWinRTXaml\Project.WinRTXaml.exe">
       <PackagePath>Project.WinRTXaml.exe</PackagePath>
-      <Modified>2014-10-19T09:26:22.826</Modified>
+      <Modified>2014-10-19T12:03:46.616</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Ash\GitHub\PolygonSiblings\bin\DebugWinRTXaml\Box2DX.dll">
       <PackagePath>Box2DX.dll</PackagePath>
       <Modified>2014-10-19T08:32:56.870</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Ash\GitHub\PolygonSiblings\bin\DebugWinRTXaml\NLua.dll">
+      <PackagePath>NLua.dll</PackagePath>
+      <Modified>2014-10-19T10:20:12.871</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Ash\GitHub\PolygonSiblings\SharpDX\SharpDX.D3DCompiler.dll">
       <PackagePath>SharpDX.D3DCompiler.dll</PackagePath>
@@ -87,6 +91,10 @@
     <AppxPackagedFile Include="C:\Users\Ash\GitHub\PolygonSiblings\SharpDX\SharpDX.XInput.dll">
       <PackagePath>SharpDX.XInput.dll</PackagePath>
       <Modified>2014-09-25T13:52:16.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Ash\GitHub\PolygonSiblings\bin\DebugWinRTXaml\KeraLua.dll">
+      <PackagePath>KeraLua.dll</PackagePath>
+      <Modified>2014-10-19T10:20:12.511</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Ash\GitHub\PolygonSiblings\Assets\Logo.png">
       <PackagePath>Assets\Logo.png</PackagePath>
@@ -162,7 +170,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Ash\GitHub\PolygonSiblings\bin\DebugWinRTXaml\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2014-10-19T09:26:23.065</Modified>
+      <Modified>2014-10-19T12:04:22.764</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

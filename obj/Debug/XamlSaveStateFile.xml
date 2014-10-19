@@ -1,7 +1,8 @@
 <XamlCompilerSaveState>
   <ReferenceAssemblyList>
-    <LocalAssembly PathName="c:\users\ash\github\polygonsiblings\obj\debug\intermediatexaml\project.winrtxaml.exe" HashGuid="f1594e73-22f7-2f73-f4fa-f2d9ae7d2907" />
+    <LocalAssembly PathName="c:\users\ash\github\polygonsiblings\obj\debug\intermediatexaml\project.winrtxaml.exe" HashGuid="da13ec58-3103-7d16-ef06-593cef96e2a1" />
     <ReferenceAssembly PathName="c:\users\ash\github\polygonsiblings\bin\debugwinrtxaml\box2dx.dll" HashGuid="45ea2455-4e51-e9e6-0860-1353c6aeb92e" />
+    <ReferenceAssembly PathName="c:\users\ash\github\polygonsiblings\bin\debugwinrtxaml\nlua.dll" HashGuid="027b5541-064d-4171-0bab-1278042b9e26" />
     <ReferenceAssembly PathName="c:\users\ash\github\polygonsiblings\sharpdx\sharpdx.d3dcompiler.dll" HashGuid="c0258fad-5f14-113d-fd9e-2d38c33804a3" />
     <ReferenceAssembly PathName="c:\users\ash\github\polygonsiblings\sharpdx\sharpdx.direct2d1.dll" HashGuid="119138f8-22f4-8379-6598-95ebed02a661" />
     <ReferenceAssembly PathName="c:\users\ash\github\polygonsiblings\sharpdx\sharpdx.direct3d11.dll" HashGuid="4c05a799-608d-c868-eb22-a8f88fe41ea6" />
