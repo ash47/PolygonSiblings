@@ -267,6 +267,7 @@ namespace Project
             // Copy some variables into Lua
             lua["game"] = this;
             lua["util"] = new LuaGlobals();
+            lua["controls"] = new Controls(this);
 
             // Run the setup
             lua.DoFile("Assets/lua/init.lua");

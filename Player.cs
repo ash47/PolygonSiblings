@@ -35,6 +35,7 @@ namespace Project
             BodyDef bodyDef = new BodyDef();
             bodyDef.Position.Set(0.0f, 4.0f);
             body = game.getWorld().CreateBody(bodyDef);
+            bodyDef.FixedRotation = true;
 
             // Define another box shape for our dynamic body.
             PolygonDef shapeDef = new PolygonDef();
@@ -44,10 +45,10 @@ namespace Project
             shapeDef.Density = 1.0f;
 
             // Override the default friction.
-            shapeDef.Friction = 0.3f;
+            shapeDef.Friction = 1f;
 
             // Add the shape to the body.
-            body.CreateFixture(shapeDef);
+            Fixture fixture = body.CreateFixture(shapeDef);
 
             // Now tell the dynamic body to compute it's mass properties base
             // on its shape.
@@ -79,15 +80,6 @@ namespace Project
         // Frame update.
         public override void Update(GameTime gameTime)
         {
-            //if (game.keyboardState.IsKeyDown(Keys.Space)) { fire(); }
-
-            // TASK 1: Determine velocity based on accelerometer reading
-           // pos.X += (float)game.accelerometerReading.AccelerationX;
-
-            // Keep within the boundaries.
-            //if (pos.X < game.boundaryLeft) { pos.X = game.boundaryLeft; }
-            //if (pos.X > game.boundaryRight) { pos.X = game.boundaryRight; }
-
             // Update our position
             Vec2 physPos = body.GetPosition();
             pos.X = physPos.X;
@@ -97,8 +89,6 @@ namespace Project
             object[] args = new object[1];
             args[0] = this;
             game.callLuaFunction("updatePlayer", args);
-
-            //body.ApplyImpulse
 
             basicEffect.World = Matrix.Translation(pos);
         }

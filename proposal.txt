@@ -48,12 +48,12 @@ Minimal Viable Product
  - X Get a camera setup, with a flat ground so we know it's working correctly
  - X Setup the physics library, and create some tests to verify the physics and graphics match up
  - X Get Lua installed and compiling with our project
- - Create a basic character
-  - The character's code shoud be exported to Lua as much as possible, allowing for the most modifiability as possible
-  - The character should be controllable, and shouldn't fall through the world
-  - The character won't be able to interact with other character at this stage
-  - The character can be as simple as a square that moves at this stage
-  - The character will be controlled by keyboard only at this stage
+ -  Create a basic character
+  - X The character's code shoud be exported to Lua as much as possible, allowing for the most modifiability as possible
+  - X The character should be controllable, and shouldn't fall through the world
+  - X The character won't be able to interact with other character at this stage
+  - X The character can be as simple as a square that moves at this stage
+  - X The character will be controlled by keyboard only at this stage
  - Create a basic level
   - The level should have some platforms to jump around on
   - The level should have basic lighting

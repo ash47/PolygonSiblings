@@ -1,0 +1,1 @@
+wall:getBody():SetPosition(pos)

@@ -1,6 +1,6 @@
 <XamlCompilerSaveState>
   <ReferenceAssemblyList>
-    <LocalAssembly PathName="c:\users\ash\github\polygonsiblings\obj\debug\intermediatexaml\project.winrtxaml.exe" HashGuid="da13ec58-3103-7d16-ef06-593cef96e2a1" />
+    <LocalAssembly PathName="c:\users\ash\github\polygonsiblings\obj\debug\intermediatexaml\project.winrtxaml.exe" HashGuid="9724e485-3663-4c4e-f970-bb26211048d3" />
     <ReferenceAssembly PathName="c:\users\ash\github\polygonsiblings\bin\debugwinrtxaml\box2dx.dll" HashGuid="45ea2455-4e51-e9e6-0860-1353c6aeb92e" />
     <ReferenceAssembly PathName="c:\users\ash\github\polygonsiblings\bin\debugwinrtxaml\nlua.dll" HashGuid="027b5541-064d-4171-0bab-1278042b9e26" />
     <ReferenceAssembly PathName="c:\users\ash\github\polygonsiblings\sharpdx\sharpdx.d3dcompiler.dll" HashGuid="c0258fad-5f14-113d-fd9e-2d38c33804a3" />
