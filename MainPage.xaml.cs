@@ -40,10 +40,26 @@ namespace Project
             this.Children.Add(mainMenu);
         }
 
-        // TASK 1: Update the game's score
-        public void UpdateScore(int score)
+        public void UpdateDamage(int playerID, ushort damage)
         {
-            txtScore.Text = "Score: " + score.ToString();
+            string msg = "Player "+(playerID+1)+"\n" + damage;
+
+            if (playerID == 0)
+            {
+                txtDamage1.Text = msg;
+            }
+            else if (playerID == 1)
+            {
+                txtDamage1.Text = msg;
+            }
+            else if (playerID == 2)
+            {
+                txtDamage1.Text = msg;
+            }
+            else if (playerID == 3)
+            {
+                txtDamage1.Text = msg;
+            }
         }
 
         // TASK 2: Starts the game.  Not that it seems easier to simply move the game.Run(this) command to this function,
@@ -53,6 +69,11 @@ namespace Project
         {
             this.Children.Remove(mainMenu);
             game.started = true;
+        }
+
+        private void txtDamage1_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

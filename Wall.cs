@@ -16,10 +16,10 @@ namespace Project
         private Body body;
 
         // The width of the wall
-        private float width;
+        protected float width;
 
         // The height of the wall
-        private float height;
+        protected float height;
 
         public Wall(LabGame game, float width, float height, Vector3 position)
         {
@@ -30,7 +30,7 @@ namespace Project
 
             // Setup type and model
             type = GameObjectType.Wall;
-            myModel = game.assets.GetModel("wall", CreateWallModel);
+            myModel = game.assets.GetModel("wall"+this.width+"_"+this.height, CreateWallModel);
             pos = new SharpDX.Vector3(position.X, position.Y, 0);
             GetParamsFromModel();
 
@@ -42,15 +42,19 @@ namespace Project
             // Define another box shape for our dynamic body.
             PolygonDef shapeDef = new PolygonDef();
             shapeDef.SetAsBox(width / 2, height / 2);
+            shapeDef.Filter.CategoryBits = Collisions.CAT_WALL;
+            shapeDef.Filter.MaskBits = Collisions.MASK_WALL;
+            shapeDef.Filter.GroupIndex = 0;
+            shapeDef.Friction = 0;
 
             // Add the shape to the body.
             body.CreateFixture(shapeDef);
-
+            
             // Set userdata
             body.SetUserData(this);
         }
 
-        public MyModel CreateWallModel()
+        public virtual MyModel CreateWallModel()
         {
             return game.assets.CreateTexturedCube("player.png", new Vector3(this.width, this.height, 1));
         }

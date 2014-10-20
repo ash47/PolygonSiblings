@@ -51,34 +51,6 @@ namespace Project
 
             // Set local transformation to be spinning according to time for fun.
             basicEffect.World = Matrix.RotationY(time) * Matrix.RotationZ(time * time) * Matrix.Translation(pos);
-
-            // Check if collided with the target type of object.
-            checkForCollisions();
-        }
-
-        // Check if collided with the target type of object.
-        private void checkForCollisions()
-        {
-            foreach (var obj in game.gameObjects)
-            {
-                if (obj.type == targetType && ((((GameObject)obj).pos - pos).LengthSquared() <= 
-                    Math.Pow(((GameObject)obj).myModel.collisionRadius + this.myModel.collisionRadius, 2)))
-                {
-                    // Cast to object class and call Hit method.
-                    switch (obj.type)
-                    {
-                        case GameObjectType.Player:
-                            ((Player)obj).Hit();
-                            break;
-                        case GameObjectType.Enemy:
-                            ((Enemy)obj).Hit();
-                            break;
-                    }
-
-                    // Destroy self.
-                    game.Remove(this);
-                }
-            }
         }
     }
 }

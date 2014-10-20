@@ -10,6 +10,7 @@ using Windows.UI.Core;
 using Box2DX.Dynamics;
 using Box2DX.Common;
 using NLua;
+using System.Diagnostics;
 
 namespace Project
 {
@@ -33,22 +34,28 @@ namespace Project
         // Data for this player
         public LuaTable data;
 
+        // The amount of damage this player has
+        private ushort damage;
+
         // The amount of pieces of ground we are touching
         public int touchingGround = 0;
 
-        public Player(LabGame game, int playerID, int characterIndex)
+        public Player(LabGame game, int playerID, int characterIndex, Vec2 spawnPos)
         {
             this.game = game;
             type = GameObjectType.Player;
             myModel = game.assets.GetModel("player", CreatePlayerModel);
-            pos = new SharpDX.Vector3(0, 0, 0);
+            pos = new SharpDX.Vector3(spawnPos.X, spawnPos.Y, 0);
             GetParamsFromModel();
             this.character = game.getCharacterClass(characterIndex);
             this.playerID = playerID;
 
+            // Reset damage
+           this.damage = 0;
+
             // Define the dynamic body. We set its position and call the body factory.
             BodyDef bodyDef = new BodyDef();
-            bodyDef.Position.Set(0.0f, 4.0f);
+            bodyDef.Position.Set(spawnPos.X, spawnPos.Y);
             body = game.getWorld().CreateBody(bodyDef);
             bodyDef.FixedRotation = true;
 
@@ -57,6 +64,9 @@ namespace Project
             shapeDef.SetAsBox(0.5f, 0.5f);
             shapeDef.Density = 1.0f;
             shapeDef.Friction = 1f;
+            shapeDef.Filter.CategoryBits = Collisions.CAT_PLAYER;
+            shapeDef.Filter.MaskBits = Collisions.MASK_PLAYER;
+            shapeDef.Filter.GroupIndex = 0;
 
             // Add the shape to the body.
             body.CreateFixture(shapeDef);
@@ -73,9 +83,11 @@ namespace Project
             sensorShape.SetAsBox(0.5f, 0.1f, new Vec2(0f, -0.5f), 0);
             sensorShape.Density = 1.0f;
             sensorShape.IsSensor = true;
+            sensorShape.Filter.CategoryBits = Collisions.CAT_GROUNDSENSOR;
+            sensorShape.Filter.MaskBits = Collisions.MASK_GROUNDSENSOR;
+            sensorShape.Filter.GroupIndex = 0;
 
-            Fixture sensorFixture = body.CreateFixture(sensorShape);
-            
+            body.CreateFixture(sensorShape);
 
             // Init Character
             if (this.character != null)
@@ -142,7 +154,9 @@ namespace Project
 
         public override void Tapped(GestureRecognizer sender, TappedEventArgs args)
         {
-            fire();
+            //fire();
+
+            this.attack(new Vec2(5, 10), 10);
         }
 
         public override void OnManipulationUpdated(GestureRecognizer sender, ManipulationUpdatedEventArgs args)
@@ -150,16 +164,60 @@ namespace Project
             pos.X += (float)args.Delta.Translation.X / 100;
         }
 
-        // Returns the body
-        public Body getBody()
+        // Applies a force at the center of the player
+        public void ApplyForce(Vec2 force)
         {
-            return this.body;
+            this.body.ApplyImpulse(force, this.body.GetPosition());
         }
 
         // Gets the playerID
         public int getPlayerID()
         {
             return this.playerID;
+        }
+
+        // Returns the amount of damage this player has
+        public ushort getDamage()
+        {
+            return this.damage;
+        }
+
+        // Adds to the current damage
+        public void addDamage(ushort damage)
+        {
+            // Increase damage
+            this.damage += damage;
+
+            // Update display
+            game.updateDamage(this.playerID, getDamage());
+        }
+
+        // Driectly sets the damage
+        public void setDamage(ushort damage)
+        {
+            // Set damage
+            this.damage = damage;
+
+            // Update display
+            game.updateDamage(this.playerID, getDamage());
+        }
+
+        // Returns the damage multiplier
+        public int getDamageMultiplier()
+        {
+            return (this.getDamage() + 100) / 100;
+        }
+
+        // Applys an attack to this player
+        public void attack(Vec2 power, ushort damage)
+        {
+            // Add to the damage
+            addDamage(damage);
+
+            Debug.WriteLine(this.getDamage());
+            
+            // Apply the force
+            this.body.ApplyImpulse(power * getDamageMultiplier(), this.body.GetPosition());
         }
     }
 }

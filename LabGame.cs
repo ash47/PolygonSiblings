@@ -46,7 +46,6 @@ namespace Project
         private Stack<GameObject> removedGameObjects;
         private KeyboardManager keyboardManager;
         public KeyboardState keyboardState;
-        private Player player;
         public AccelerometerReading accelerometerReading;
         public GameInput input;
         public int score;
@@ -129,12 +128,19 @@ namespace Project
             initLua();
 
             // Create a player
-            player = new Player(this, 0, 0);
+            Player player = new Player(this, 0, 0, new Vec2(4, 0));
             gameObjects.Add(player);
 
-            // Create a wall
-            Wall wall = new Wall(this, 14, 1, new Vector3(0, -4, 0));
+            Player player2 = new Player(this, 1, 0, new Vec2(-4, 0));
+            gameObjects.Add(player2);
+            //player2.getBody().SetPosition(new Vec2(-4, 0));
+
+            // Create the level
+            Wall wall = new FinalDestination(this, new Vector3(0, -4, 0));
             gameObjects.Add(wall);
+
+            // Add a platform
+            gameObjects.Add(new Wall(this, 30, 1, new Vector3(0, 3, 0)));
 
             // Create an input layout from the vertices
             base.LoadContent();
@@ -166,8 +172,6 @@ namespace Project
                 {
                     gameObjects[i].Update(gameTime);
                 }
-
-                mainPage.UpdateScore(score);
 
                 if (keyboardState.IsKeyDown(Keys.Escape))
                 {
@@ -277,7 +281,7 @@ namespace Project
             lua["controls"] = new Controls(this);
 
             // Run the setup
-            lua.DoFile("Assets/lua/init.lua");
+            lua.DoFile("Content/lua/init.lua");
         }
 
         public void callLuaFunction(String name, object[] args)
@@ -313,6 +317,12 @@ namespace Project
         public World getWorld()
         {
             return this.world;
+        }
+
+        // Updates the damage for the given player
+        public void updateDamage(int playerID, ushort damage)
+        {
+            mainPage.UpdateDamage(playerID, damage);
         }
     }
 }

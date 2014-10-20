@@ -19,16 +19,19 @@ namespace Project
 
         public Boolean leftDown(int playerID)
         {
+            if (playerID != 0) return false;
             return game.keyboardState.IsKeyDown(Keys.Left);
         }
 
         public Boolean rightDown(int playerID)
         {
+            if (playerID != 0) return false;
             return game.keyboardState.IsKeyDown(Keys.Right);
         }
 
         public Boolean jumpDown(int playerID)
         {
+            if (playerID != 0) return false;
             return game.keyboardState.IsKeyDown(Keys.Up);
         }
     }

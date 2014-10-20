@@ -92,8 +92,12 @@ namespace Project
                 shapeArray[i].Position.Z *= size.Z / 2;
             }
 
-            float collisionRadius = (size.X + size.Y + size.Z) / 6 ;
-            return new MyModel(game, shapeArray, texturePath, collisionRadius);
+            return new MyModel(game, shapeArray, texturePath);
+        }
+
+        public MyModel CreateTexturedObject(String texturePath, VertexPositionTexture[] shapeArray)
+        {
+            return new MyModel(game, shapeArray, texturePath);
         }
     }
 }

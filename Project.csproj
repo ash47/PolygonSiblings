@@ -47,6 +47,7 @@
     <Compile Include="Controls.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="EnemyController.cs" />
+    <Compile Include="FinalDestination.cs" />
     <Compile Include="GameInput.cs" />
     <Compile Include="LuaGlobals.cs" />
     <Compile Include="MainMenu.xaml.cs">
@@ -82,12 +83,16 @@
     <Content Include="Content\enemy.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="lua52.dll" />
     <ToolkitFxc Include="Content\Gouraud.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitFxc>
     <ToolkitFxc Include="Content\Phong.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitFxc>
+    <Content Include="Content\finaldestination.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\player projectile.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -118,13 +123,11 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Box2DX, Version=2.0.1.35188, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\DebugWinRTXaml\Box2DX.dll</HintPath>
+    <Reference Include="Box2DX">
+      <HintPath>lib\Box2DX.dll</HintPath>
     </Reference>
-    <Reference Include="NLua, Version=1.3.1.0, Culture=neutral, PublicKeyToken=8df2ab518030ea95, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\DebugWinRTXaml\NLua.dll</HintPath>
+    <Reference Include="NLua">
+      <HintPath>lib\NLua.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
       <HintPath>SharpDX\SharpDX.dll</HintPath>
@@ -174,15 +177,19 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitModel>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\lua\init.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <Import Project="SharpDX\SharpDX.Toolkit.Targets" />
   <PropertyGroup>
-    <PostBuildEvent>mkdir /Y "$(TargetDir)AppX\Assets\lua"
-copy /Y "$(SolutionDir)Assets\lua\*.lua" "$(TargetDir)AppX\Assets\lua"
-copy /Y "$(SolutionDir)lib\lua52.dll" "$(TargetDir)AppX\lua52.dll"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
