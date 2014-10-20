@@ -9,6 +9,7 @@ using Windows.UI.Input;
 using Windows.UI.Core;
 using Box2DX.Dynamics;
 using Box2DX.Common;
+using NLua;
 
 namespace Project
 {
@@ -20,16 +21,30 @@ namespace Project
         //private float speed = 0.006f;
         private float projectileSpeed = 20;
 
+        // The ID of the player controlling us
+        private int playerID;
+
+        // Our character class
+        private CharacterClass character;
+
         // The physics body
         private Body body;
 
-        public Player(LabGame game)
+        // Data for this player
+        public LuaTable data;
+
+        // The amount of pieces of ground we are touching
+        public int touchingGround = 0;
+
+        public Player(LabGame game, int playerID, int characterIndex)
         {
             this.game = game;
             type = GameObjectType.Player;
             myModel = game.assets.GetModel("player", CreatePlayerModel);
             pos = new SharpDX.Vector3(0, 0, 0);
             GetParamsFromModel();
+            this.character = game.getCharacterClass(characterIndex);
+            this.playerID = playerID;
 
             // Define the dynamic body. We set its position and call the body factory.
             BodyDef bodyDef = new BodyDef();
@@ -37,22 +52,41 @@ namespace Project
             body = game.getWorld().CreateBody(bodyDef);
             bodyDef.FixedRotation = true;
 
-            // Define another box shape for our dynamic body.
+            // Define a box shape for our dynamic body.
             PolygonDef shapeDef = new PolygonDef();
             shapeDef.SetAsBox(0.5f, 0.5f);
-
-            // Set the box density to be non-zero, so it will be dynamic.
             shapeDef.Density = 1.0f;
-
-            // Override the default friction.
             shapeDef.Friction = 1f;
 
             // Add the shape to the body.
-            Fixture fixture = body.CreateFixture(shapeDef);
+            body.CreateFixture(shapeDef);
 
             // Now tell the dynamic body to compute it's mass properties base
             // on its shape.
             body.SetMassFromShapes();
+
+            // Set userdata
+            body.SetUserData(this);
+
+            // CREATE FOOT SENSOR
+            PolygonDef sensorShape = new PolygonDef();
+            sensorShape.SetAsBox(0.5f, 0.1f, new Vec2(0f, -0.5f), 0);
+            sensorShape.Density = 1.0f;
+            sensorShape.IsSensor = true;
+
+            Fixture sensorFixture = body.CreateFixture(sensorShape);
+            
+
+            // Init Character
+            if (this.character != null)
+            {
+                // Build argument list
+                object[] args = new object[1];
+                args[0] = this;
+
+                // Call the update function
+                this.character.init.Call(args);
+            }
         }
 
         public MyModel CreatePlayerModel()
@@ -85,10 +119,17 @@ namespace Project
             pos.X = physPos.X;
             pos.Y = physPos.Y;
 
-            // Handle our game code
-            object[] args = new object[1];
-            args[0] = this;
-            game.callLuaFunction("updatePlayer", args);
+            // Ensure we found our character
+            if (this.character != null)
+            {
+                // Build argument list
+                object[] args = new object[2];
+                args[0] = gameTime;
+                args[1] = this;
+
+                // Call the update function
+                this.character.update.Call(args);
+            }
 
             basicEffect.World = Matrix.Translation(pos);
         }
@@ -113,6 +154,12 @@ namespace Project
         public Body getBody()
         {
             return this.body;
+        }
+
+        // Gets the playerID
+        public int getPlayerID()
+        {
+            return this.playerID;
         }
     }
 }

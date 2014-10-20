@@ -52,6 +52,9 @@ namespace Project
         public int score;
         public MainPage mainPage;
 
+        // Stores all the registered characters
+        private List<CharacterClass> characters;
+
         // TASK 4: Use this to represent difficulty
         public float difficulty;
 
@@ -111,6 +114,7 @@ namespace Project
             gameObjects = new List<GameObject>();
             addedGameObjects = new Stack<GameObject>();
             removedGameObjects = new Stack<GameObject>();
+            characters = new List<CharacterClass>();
 
             // Create the physics world
             AABB worldAABB = new AABB();
@@ -118,16 +122,19 @@ namespace Project
             worldAABB.UpperBound.Set(100.0f);
             world = new World(worldAABB, new Vec2(0.0f, -10.0f), true);
 
+            // Setup collision handler
+            world.SetContactListener(new Collisions(this));
+
+            // Setup Lua
+            initLua();
+
             // Create a player
-            player = new Player(this);
+            player = new Player(this, 0, 0);
             gameObjects.Add(player);
 
             // Create a wall
             Wall wall = new Wall(this, 14, 1, new Vector3(0, -4, 0));
             gameObjects.Add(wall);
-
-            // Setup Lua
-            initLua();
 
             // Create an input layout from the vertices
             base.LoadContent();
@@ -277,6 +284,29 @@ namespace Project
         {
             // Tell lua to update
             lua.GetFunction(name).Call(args);
+        }
+
+        // Registers a character
+        public void registerCharacter(String name, LuaFunction init, LuaFunction update)
+        {
+            // Create the class
+            CharacterClass cl = new CharacterClass();
+            cl.name = name;
+            cl.update = update;
+            cl.init = init;
+
+            // Store it
+            characters.Add(cl);
+        }
+
+        // Gets a character by index
+        public CharacterClass getCharacterClass(int index)
+        {
+            // Ensure a valid index
+            if (index < 0 || index >= characters.Count) return null;
+
+            // Return the correct character
+            return characters[index];
         }
 
         // Returns the world

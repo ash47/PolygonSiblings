@@ -89,3 +89,11 @@ C:\Users\Ash\GitHub\PolygonSiblings\bin\DebugWinRTXaml\Box2DX.pdb
 C:\Users\Ash\GitHub\PolygonSiblings\bin\DebugWinRTXaml\KeraLua.dll
 C:\Users\Ash\GitHub\PolygonSiblings\bin\DebugWinRTXaml\NLua.pdb
 C:\Users\Ash\GitHub\PolygonSiblings\bin\DebugWinRTXaml\KeraLua.pdb
+C:\Users\Ash\GitHub\PolygonSiblings\obj\Debug\SharpDX\layout.resfiles
+C:\Users\Ash\GitHub\PolygonSiblings\obj\Debug\SharpDX\layout.resfiles.intermediate
+C:\Users\Ash\GitHub\PolygonSiblings\obj\Debug\SharpDX\Resources.resfiles
+C:\Users\Ash\GitHub\PolygonSiblings\obj\Debug\SharpDX\Resources.resfiles.intermediate
+C:\Users\Ash\GitHub\PolygonSiblings\obj\Debug\SharpDX\pri.resfiles
+C:\Users\Ash\GitHub\PolygonSiblings\obj\Debug\SharpDX\pri.resfiles.intermediate
+C:\Users\Ash\GitHub\PolygonSiblings\obj\Debug\SharpDX\priconfig.xml
+C:\Users\Ash\GitHub\PolygonSiblings\obj\Debug\SharpDX\priconfig.xml.intermediate

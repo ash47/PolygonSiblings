@@ -20,13 +20,13 @@
     <AppXManifest Include="C:\Users\Ash\GitHub\PolygonSiblings\bin\DebugWinRTXaml\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2014-10-19T12:38:44.544</Modified>
+      <Modified>2014-10-20T01:04:07.100</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Ash\GitHub\PolygonSiblings\bin\DebugWinRTXaml\Project.WinRTXaml.exe">
       <PackagePath>Project.WinRTXaml.exe</PackagePath>
-      <Modified>2014-10-19T12:37:13.688</Modified>
+      <Modified>2014-10-20T01:03:26.753</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Ash\GitHub\PolygonSiblings\bin\DebugWinRTXaml\Box2DX.dll">
       <PackagePath>Box2DX.dll</PackagePath>
@@ -170,7 +170,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Ash\GitHub\PolygonSiblings\bin\DebugWinRTXaml\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2014-10-19T12:37:13.845</Modified>
+      <Modified>2014-10-20T01:04:07.072</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

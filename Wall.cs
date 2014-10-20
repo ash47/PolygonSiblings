@@ -45,6 +45,9 @@ namespace Project
 
             // Add the shape to the body.
             body.CreateFixture(shapeDef);
+
+            // Set userdata
+            body.SetUserData(this);
         }
 
         public MyModel CreateWallModel()

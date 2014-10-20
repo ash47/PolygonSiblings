@@ -17,17 +17,17 @@ namespace Project
             this.game = game;
         }
 
-        public Boolean leftDown()
+        public Boolean leftDown(int playerID)
         {
             return game.keyboardState.IsKeyDown(Keys.Left);
         }
 
-        public Boolean rightDown()
+        public Boolean rightDown(int playerID)
         {
             return game.keyboardState.IsKeyDown(Keys.Right);
         }
 
-        public Boolean jumpDown()
+        public Boolean jumpDown(int playerID)
         {
             return game.keyboardState.IsKeyDown(Keys.Up);
         }
