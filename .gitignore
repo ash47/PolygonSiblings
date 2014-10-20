@@ -29,6 +29,7 @@ $RECYCLE.BIN/
 Icon
 
 
+
 # Thumbnails
 ._*
 
@@ -38,6 +39,9 @@ Icon
 
 node_modules/*
 
+# Build stuff
 bin/*
 obj/*
 Build/*
+*.pdb
+Debug/*
