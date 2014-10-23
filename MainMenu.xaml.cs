@@ -38,6 +38,7 @@ namespace Project
         }
         private void StartGame(object sender, RoutedEventArgs e)
         {
+            parent.game.setControls(comboBox1.SelectedIndex, comboBox2.SelectedIndex, comboBox3.SelectedIndex, comboBox4.SelectedIndex);
             parent.StartGame();
         }
 
@@ -51,6 +52,23 @@ namespace Project
         private void changeDifficulty(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
             if (parent.game != null) { parent.game.difficulty = (float)e.NewValue; }
+        }
+
+        private void QuitGame(object sender, RoutedEventArgs e)
+        {
+            this.parent.game.Exit();
+            this.parent.game.Dispose();
+            App.Current.Exit();
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void txtInstructions_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

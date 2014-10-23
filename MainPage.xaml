@@ -8,6 +8,22 @@
     mc:Ignorable="d"    
     d:DesignWidth="1280"
     d:DesignHeight="800">
-    <TextBlock x:Name="txtDamage1" HorizontalAlignment="Left" Margin="62,719,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="38" Width="117" SelectionChanged="txtDamage1_SelectionChanged"/>
+    <SwapChainBackgroundPanel.ColumnDefinitions>
+        <ColumnDefinition Width="299*"/>
+        <ColumnDefinition Width="21*"/>
+    </SwapChainBackgroundPanel.ColumnDefinitions>
+    <TextBlock x:Name="txtDamage1" HorizontalAlignment="Left" Margin="62,719,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="38" Width="117" SelectionChanged="txtDamage1_SelectionChanged" TextAlignment="Center"/>
+    <TextBlock x:Name="txtDamage2" HorizontalAlignment="Left" Margin="401,719,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="38" Width="117" SelectionChanged="txtDamage1_SelectionChanged" TextAlignment="Center"/>
+    <TextBlock x:Name="txtDamage3" HorizontalAlignment="Left" Margin="734,709,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="38" Width="117" SelectionChanged="txtDamage1_SelectionChanged" TextAlignment="Center"/>
+    <TextBlock x:Name="txtDamage4" HorizontalAlignment="Left" Margin="971,709,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="38" Width="117" SelectionChanged="txtDamage1_SelectionChanged" TextAlignment="Center"/>
+    <TextBlock x:Name="txtWinner" HorizontalAlignment="Left" Margin="62,550,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="197" Width="1161" SelectionChanged="txtDamage1_SelectionChanged" TextAlignment="Center" FontSize="64" Grid.ColumnSpan="2"/>
+    <Button x:Name="btnCmdLeft" Content="&lt;" HorizontalAlignment="Left" Height="77" Margin="19,640,0,0" VerticalAlignment="Top" Width="163"  FontFamily="Global User Interface"/>
+    <Button x:Name="btnCmdJump" Content="/\" HorizontalAlignment="Left" Height="77" Margin="19,547,0,0" VerticalAlignment="Top" Width="163" FontFamily="Global User Interface"/>
+    <Button x:Name="btnCmdRight" Content="&gt;" HorizontalAlignment="Left" Height="77" Margin="1110,630,0,0" VerticalAlignment="Top" Width="163" FontFamily="Global User Interface" Grid.ColumnSpan="2"/>
+    <Button x:Name="btnCmdAttack" Content="Attack" HorizontalAlignment="Left" Height="77" Margin="1110,547,0,0" VerticalAlignment="Top" Width="163" FontFamily="Global User Interface" Grid.ColumnSpan="2"/>
+    <ComboBox x:Name="comboBox1" Margin="1104,733,10,0" SelectedIndex="0" Grid.ColumnSpan="2" SelectionChanged="comboBox1_SelectionChanged">
+        <x:String>Static</x:String>
+        <x:String>Accelerometer</x:String>
+    </ComboBox>
 
 </SwapChainBackgroundPanel>

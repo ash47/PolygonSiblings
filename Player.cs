@@ -17,7 +17,7 @@ namespace Project
     using SharpDX.Toolkit.Graphics;
     using SharpDX.Toolkit.Input;
     // Player class.
-    class Player : GameObject
+    public class Player : GameObject
     {
         //private float speed = 0.006f;
         private float projectileSpeed = 20;
@@ -37,21 +37,45 @@ namespace Project
         // The amount of damage this player has
         private ushort damage;
 
+        // Our actual rotation
+        private float rot = 0;
+
+        // How much left to rotate
+        private float toRotate = 0;
+
+        // Our direction
+        private float direction = 0;
+
         // The amount of pieces of ground we are touching
         public int touchingGround = 0;
+
+        // Our scaling factor
+        private float scaling = 1.0f;
+
+        // Number of lives
+        private int lives;
+
+        // Our attack collison
+        private Fixture attackFixture;
 
         public Player(LabGame game, int playerID, int characterIndex, Vec2 spawnPos)
         {
             this.game = game;
+            this.playerID = playerID;
             type = GameObjectType.Player;
-            myModel = game.assets.GetModel("player", CreatePlayerModel);
+            myModel = game.assets.GetModel("player"+playerID, CreatePlayerModel);
             pos = new SharpDX.Vector3(spawnPos.X, spawnPos.Y, 0);
             GetParamsFromModel();
             this.character = game.getCharacterClass(characterIndex);
-            this.playerID = playerID;
+
+            // Set lives
+            this.setLives(3);
+
+            // Add to the number of players left
+            game.playersLeft++;
 
             // Reset damage
-           this.damage = 0;
+            setDamage(0);
 
             // Define the dynamic body. We set its position and call the body factory.
             BodyDef bodyDef = new BodyDef();
@@ -63,7 +87,7 @@ namespace Project
             PolygonDef shapeDef = new PolygonDef();
             shapeDef.SetAsBox(0.5f, 0.5f);
             shapeDef.Density = 1.0f;
-            shapeDef.Friction = 1f;
+            shapeDef.Friction = 0.1f;
             shapeDef.Filter.CategoryBits = Collisions.CAT_PLAYER;
             shapeDef.Filter.MaskBits = Collisions.MASK_PLAYER;
             shapeDef.Filter.GroupIndex = 0;
@@ -87,7 +111,11 @@ namespace Project
             sensorShape.Filter.MaskBits = Collisions.MASK_GROUNDSENSOR;
             sensorShape.Filter.GroupIndex = 0;
 
-            body.CreateFixture(sensorShape);
+            SensorInfo si = new SensorInfo();
+            si.sort = 1;
+
+            Fixture sensorFixture = body.CreateFixture(sensorShape);
+            sensorFixture.UserData = si;
 
             // Init Character
             if (this.character != null)
@@ -103,7 +131,23 @@ namespace Project
 
         public MyModel CreatePlayerModel()
         {
-            return game.assets.CreateTexturedCube("player.png", 1f);
+            String tx = "whiteply.png";
+            if (playerID == 0)
+            {
+                tx = "whiteply.png";
+            }
+            else if (playerID == 1)
+            {
+                tx = "redply.png";
+            } if (playerID == 2)
+            {
+                tx = "greenply.png";
+            } if (playerID == 3)
+            {
+                tx = "blueply.png";
+            }
+
+            return game.assets.CreateTexturedCube(tx, 1f);
         }
 
         // Method to create projectile texture to give to newly created projectiles.
@@ -131,6 +175,79 @@ namespace Project
             pos.X = physPos.X;
             pos.Y = physPos.Y;
 
+            if(pos.Y < -10)
+            {
+                this.die();
+            }
+
+            // How fast to rotate
+            float rotSpeed = 1/60f * 6;
+
+            // Fancy Rotations
+            Vec2 vel = this.body.GetLinearVelocity();
+            if(vel.X < -0.1)
+            {
+                if(direction == 0)
+                {
+                    toRotate += (float)(System.Math.PI) / 2;
+                }
+                else if (direction == 1)
+                {
+                    toRotate += (float)(System.Math.PI);
+                }
+
+                direction = -1;
+            }
+            else if(vel.X > 0.1)
+            {
+                if (direction == 0)
+                {
+                    toRotate -= (float)(System.Math.PI) / 2;
+                }
+                else if (direction == -1)
+                {
+                    toRotate -= (float)(System.Math.PI);
+                }
+
+                direction = 1;
+            }
+            else
+            {
+                if (direction == -1)
+                {
+                    toRotate -= (float)(System.Math.PI) / 2;
+                }
+                else if (direction == 1)
+                {
+                    toRotate += (float) (System.Math.PI) / 2;
+                }
+
+                direction = 0;
+            }
+
+            if (toRotate > 0)
+            {
+                toRotate -= rotSpeed;
+                rot += rotSpeed;
+
+                if (toRotate < 0)
+                {
+                    rot += toRotate;
+                    toRotate = 0;
+                }
+            }
+            else if (toRotate < 0)
+            {
+                toRotate += rotSpeed;
+                rot -= rotSpeed;
+
+                if (toRotate > 0)
+                {
+                    rot += toRotate;
+                    toRotate = 0;
+                }
+            }
+
             // Ensure we found our character
             if (this.character != null)
             {
@@ -143,7 +260,7 @@ namespace Project
                 this.character.update.Call(args);
             }
 
-            basicEffect.World = Matrix.Translation(pos);
+            basicEffect.World = Matrix.Scaling(this.scaling) * Matrix.RotationY(this.rot) * Matrix.Translation(this.pos);
         }
 
         // React to getting hit by an enemy bullet.
@@ -156,12 +273,12 @@ namespace Project
         {
             //fire();
 
-            this.attack(new Vec2(5, 10), 10);
+            //this.attack(new Vec2(5, 10), 10);
         }
 
         public override void OnManipulationUpdated(GestureRecognizer sender, ManipulationUpdatedEventArgs args)
         {
-            pos.X += (float)args.Delta.Translation.X / 100;
+            //pos.X += (float)args.Delta.Translation.X / 100;
         }
 
         // Applies a force at the center of the player
@@ -189,7 +306,7 @@ namespace Project
             this.damage += damage;
 
             // Update display
-            game.updateDamage(this.playerID, getDamage());
+            game.updateDamage(this.playerID, getDamage(), getLives());
         }
 
         // Driectly sets the damage
@@ -199,7 +316,7 @@ namespace Project
             this.damage = damage;
 
             // Update display
-            game.updateDamage(this.playerID, getDamage());
+            game.updateDamage(this.playerID, getDamage(), getLives());
         }
 
         // Returns the damage multiplier
@@ -213,11 +330,86 @@ namespace Project
         {
             // Add to the damage
             addDamage(damage);
-
-            Debug.WriteLine(this.getDamage());
             
             // Apply the force
             this.body.ApplyImpulse(power * getDamageMultiplier(), this.body.GetPosition());
+        }
+
+        // Sets our scale
+        public void setScale(float scale)
+        {
+            this.scaling = scale;
+        }
+
+        // Creates an attack radius
+        public void createAttack(float width, float height, Vec2 offset, float angle, int damage, float power)
+        {
+            removeAttack();
+
+            PolygonDef sensorShape = new PolygonDef();
+            sensorShape.SetAsBox(width, height, offset, angle);
+            sensorShape.Density = 1.0f;
+            sensorShape.IsSensor = true;
+
+            SensorInfo si = new SensorInfo();
+            si.sort = 2;
+            si.value1 = damage;
+            si.value2 = power;
+
+            attackFixture = body.CreateFixture(sensorShape);
+            attackFixture.UserData = si;
+        }
+
+        public void removeAttack()
+        {
+            if (attackFixture != null)
+            {
+                body.DestroyFixture(attackFixture);
+                attackFixture = null;
+            }
+        }
+
+        public void setLives(int lives)
+        {
+            this.lives = lives;
+
+            game.updateDamage(this.playerID, getDamage(), getLives());
+        }
+
+        public int getLives()
+        {
+            return this.lives;
+        }
+
+        public Vec2 getPosition()
+        {
+            return this.body.GetPosition();
+        }
+
+        public void die()
+        {
+            this.setLives(this.getLives() - 1);
+
+            if(this.getLives() <= 0)
+            {
+                // One less player
+                game.playersLeft--;
+
+                this.body.Dispose();
+                game.gameObjects.Remove(this);
+
+                // Check for victory
+                game.checkVictory();
+            }
+            else
+            {
+                // Reset position
+                this.body.SetPosition(new Vec2(0, 6));
+                this.body.SetLinearVelocity(new Vec2(0, 0));
+
+                // No damage
+                this.setDamage(0);
+            }
         }
     }
 }

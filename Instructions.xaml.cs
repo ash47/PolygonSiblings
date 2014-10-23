@@ -43,5 +43,10 @@ namespace Project
             parent.Children.Add(parent.mainMenu);
             parent.Children.Remove(this);
         }
+
+        private void txtInstructions_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

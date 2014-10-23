@@ -9,8 +9,42 @@
     d:DesignWidth="1280"
     d:DesignHeight="800">
     <Grid>
-        <Button x:Name="cmdStart" Content="Start" HorizontalAlignment="Left" Height="77" Margin="515,247,0,0" VerticalAlignment="Top" Width="163" Click="StartGame"/>
-        <Slider x:Name="sldDifficulty" HorizontalAlignment="Left" Height="38" Margin="208,10,0,0" VerticalAlignment="Top" Width="159" ValueChanged="changeDifficulty" Value="1" IsTabStop="False" Minimum="0.5" Maximum="3" LargeChange="0.1" SmallChange="0.01" StepFrequency="0.01"/>
-        <Button x:Name="cmdInstructions" Content="Instructions" HorizontalAlignment="Left" Height="77" Margin="749,247,0,0" VerticalAlignment="Top" Width="163" Click="LoadInstructions"/>
+        <Button x:Name="cmdStart" Content="Start" HorizontalAlignment="Left" Height="77" Margin="1063,48,0,0" VerticalAlignment="Top" Width="163" Click="StartGame" FontFamily="Global User Interface"/>
+        <Button x:Name="cmdInstructions" Content="Instructions" HorizontalAlignment="Left" Height="77" Margin="1063,144,0,0" VerticalAlignment="Top" Width="163" Click="LoadInstructions"/>
+        <Button x:Name="cmdQuit" Content="Quit" HorizontalAlignment="Left" Height="77" Margin="1063,249,0,0" VerticalAlignment="Top" Width="163" Click="QuitGame" FontFamily="Global User Interface"/>
+
+
+        <ComboBox x:Name="comboBox1" SelectionChanged="ComboBox_SelectionChanged" Margin="50,51,1017,668" SelectedIndex="0">
+            <x:String>AI Controlled</x:String>
+            <x:String>OnScreen Controls</x:String>
+            <x:String>Keyboard Controls</x:String>
+            <x:String>Disabled</x:String>
+        </ComboBox>
+        <ComboBox x:Name="comboBox2" SelectionChanged="ComboBox_SelectionChanged" Margin="50,137,1017,582" SelectedIndex="0">
+            <x:String>AI Controlled</x:String>
+            <x:String>OnScreen Controls</x:String>
+            <x:String>Keyboard Controls</x:String>
+            <x:String>Disabled</x:String>
+        </ComboBox>
+        <ComboBox x:Name="comboBox3" SelectionChanged="ComboBox_SelectionChanged" Margin="50,223,1017,496" SelectedIndex="0">
+            <x:String>AI Controlled</x:String>
+            <x:String>OnScreen Controls</x:String>
+            <x:String>Keyboard Controls</x:String>
+            <x:String>Disabled</x:String>
+        </ComboBox>
+        <ComboBox x:Name="comboBox4" SelectionChanged="ComboBox_SelectionChanged" Margin="50,309,1017,410" SelectedIndex="0">
+            <x:String>AI Controlled</x:String>
+            <x:String>OnScreen Controls</x:String>
+            <x:String>Keyboard Controls</x:String>
+            <x:String>Disabled</x:String>
+        </ComboBox>
+        <TextBlock x:Name="txtInstructions_Copy1" HorizontalAlignment="Left" Height="27" Margin="366,75,0,0" TextWrapping="Wrap" Text="White" VerticalAlignment="Top" Width="324" SelectionChanged="txtInstructions_SelectionChanged" FontSize="20"/>
+        <TextBlock x:Name="txtInstructions_Copy" HorizontalAlignment="Left" Height="27" Margin="366,161,0,0" TextWrapping="Wrap" Text="Red" VerticalAlignment="Top" Width="324" SelectionChanged="txtInstructions_SelectionChanged" FontSize="20"/>
+        <TextBlock x:Name="txtInstructions_Copy2" HorizontalAlignment="Left" Height="27" Margin="366,247,0,0" TextWrapping="Wrap" Text="Green" VerticalAlignment="Top" Width="324" SelectionChanged="txtInstructions_SelectionChanged" FontSize="20"/>
+        <TextBlock x:Name="txtInstructions_Copy3" HorizontalAlignment="Left" Height="27" Margin="366,333,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="324" SelectionChanged="txtInstructions_SelectionChanged" FontSize="20">
+        	<Run Text="Blue"/>
+        	<LineBreak/>
+        	<Run/>
+        </TextBlock>
     </Grid>
 </Page>

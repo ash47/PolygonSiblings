@@ -10,6 +10,17 @@
     d:DesignHeight="800">
     <Grid>
         <Button x:Name="cmdBack" Content="Back" HorizontalAlignment="Left" Height="77" Margin="954,70,0,0" VerticalAlignment="Top" Width="163" Click="GoBack"/>
-        <TextBlock x:Name="txtInstructions" HorizontalAlignment="Left" Height="148" Margin="415,73,0,0" TextWrapping="Wrap" Text="Enjoy the game" VerticalAlignment="Top" Width="366"/>
+        <TextBlock x:Name="txtInstructions" HorizontalAlignment="Left" Height="27" Margin="415,73,0,0" TextWrapping="Wrap" Text="By the last person left in the arena." VerticalAlignment="Top" Width="324" SelectionChanged="txtInstructions_SelectionChanged" FontSize="20"/>
+        <TextBlock x:Name="txtInstructions_Copy" HorizontalAlignment="Left" Height="27" Margin="73,156,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="324" SelectionChanged="txtInstructions_SelectionChanged" FontSize="20">
+        	<Run Text="Controls:"/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run/>
+        </TextBlock>
+        <TextBlock x:Name="txtInstructions_Copy1" HorizontalAlignment="Left" Height="27" Margin="106,207,0,0" TextWrapping="Wrap" Text="Keyboard: Arrow keys + A" VerticalAlignment="Top" Width="324" SelectionChanged="txtInstructions_SelectionChanged" FontSize="20"/>
+        <TextBlock x:Name="txtInstructions_Copy2" HorizontalAlignment="Left" Height="27" Margin="106,239,0,0" TextWrapping="Wrap" Text="OnScreen: Buttons" VerticalAlignment="Top" Width="324" SelectionChanged="txtInstructions_SelectionChanged" FontSize="20"/>
     </Grid>
 </Page>

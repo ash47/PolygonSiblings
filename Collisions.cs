@@ -46,23 +46,102 @@ namespace Project
             {
                 if (contact.FixtureA.IsSensor)
                 {
-                    // Grab the player
-                    Player ply = (Player)a;
+                    SensorInfo si = (SensorInfo)contact.FixtureA.UserData;
+                    if(si.sort == 1)
+                    {
+                        if(!contact.FixtureB.IsSensor)
+                        {
+                            // Grab the player
+                            Player ply = (Player)a;
 
-                    // Increase the number of grounds they are touching
-                    ply.touchingGround++;
+                            // Increase the number of grounds they are touching
+                            ply.touchingGround++;
+                        }
+                    }
+                    else if(si.sort == 2)
+                    {
+                        if(b is Player && b != a)
+                        {
+                            // Grab the player
+                            Player ply = (Player)b;
+
+                            // Add damage
+                            //ply.addDamage((ushort)si.value1);
+
+                            Vec2 ang = contact.FixtureB.Body.GetPosition() - contact.FixtureA.Body.GetPosition();
+                            ang.Normalize();
+                            ang *= si.value2;
+
+                            ply.attack(ang, (ushort)si.value1);
+                        }
+                    }
+                }
+                else
+                {
+                    if (b is Player)
+                    {
+                        if(!contact.FixtureB.IsSensor)
+                        {
+                            float vela = contact.FixtureA.Body.GetLinearVelocity().Length();
+                            float velb = contact.FixtureB.Body.GetLinearVelocity().Length();
+
+                            float diff = (float) (System.Math.Abs(vela - velb));
+
+                            // If one is travelling much faster
+                            if(diff > 5)
+                            {
+                                ushort damage = (ushort) (diff * 3);
+
+                                if(vela > velb)
+                                {
+                                    // Add the damage
+                                    ((Player)(b)).addDamage(damage);
+                                }
+                                else
+                                {
+                                    // Add the damage
+                                    ((Player)(a)).addDamage(damage);
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
-            if (a is Player)
+            if (b is Player)
             {
                 if (contact.FixtureB.IsSensor)
                 {
-                    // Grab the player
-                    Player ply = (Player)b;
+                    SensorInfo si = (SensorInfo)contact.FixtureB.UserData;
+                    if (si.sort == 1)
+                    {
+                        if (!contact.FixtureA.IsSensor)
+                        {
+                            // Grab the player
+                            Player ply = (Player)b;
 
-                    // Increase the number of grounds they are touching
-                    ply.touchingGround++;
+                            // Increase the number of grounds they are touching
+                            ply.touchingGround++;
+                        }
+                        
+                    }
+                    else if (si.sort == 2)
+                    {
+                        if (a is Player && b != a)
+                        {
+                            // Grab the player
+                            Player ply = (Player)a;
+
+                            // Add damage
+                            //ply.addDamage((ushort)si.value1);
+
+                            Vec2 ang = contact.FixtureA.Body.GetPosition() - contact.FixtureB.Body.GetPosition();
+                            ang.Normalize();
+                            ang *= si.value2;
+
+                            ply.attack(ang, (ushort)si.value1);
+                        }
+                    }
                 }
             }
         }
@@ -78,23 +157,37 @@ namespace Project
             {
                 if (contact.FixtureA.IsSensor)
                 {
-                    // Grab the player
-                    Player ply = (Player)a;
+                    SensorInfo si = (SensorInfo)contact.FixtureA.UserData;
+                    if (si.sort == 1)
+                    {
+                        if (!contact.FixtureB.IsSensor)
+                        {
+                            // Grab the player
+                            Player ply = (Player)a;
 
-                    // Increase the number of grounds they are touching
-                    ply.touchingGround--;
+                            // Increase the number of grounds they are touching
+                            ply.touchingGround--;
+                        }
+                    }
                 }
             }
 
-            if (a is Player)
+            if (b is Player)
             {
                 if (contact.FixtureB.IsSensor)
                 {
-                    // Grab the player
-                    Player ply = (Player)b;
+                    SensorInfo si = (SensorInfo)contact.FixtureB.UserData;
+                    if (si.sort == 1)
+                    {
+                        if (!contact.FixtureA.IsSensor)
+                        {
+                            // Grab the player
+                            Player ply = (Player)b;
 
-                    // Increase the number of grounds they are touching
-                    ply.touchingGround--;
+                            // Increase the number of grounds they are touching
+                            ply.touchingGround--;
+                        }
+                    }
                 }
             }
         }

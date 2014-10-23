@@ -26,33 +26,33 @@ namespace Project
             float h = height / 2;
             float d = depth / 2;
 
-            VertexPositionTexture[] shapeArray = new VertexPositionTexture[]{
+            VertexPositionNormalTexture[] shapeArray = new VertexPositionNormalTexture[]{
                 // Top - Middle
-                new VertexPositionTexture(new Vector3(-w/2, h, -d), new Vector2(0.25f, 1f)),
-                new VertexPositionTexture(new Vector3(-w/2, h, d), new Vector2(0.25f, 0f)),
-                new VertexPositionTexture(new Vector3(w/2, h, d), new Vector2(0.75f, 0f)),
+                new VertexPositionNormalTexture(new Vector3(-w/2, h, -d), new Vector3(0, 1, 0), new Vector2(0.25f, 1f)),
+                new VertexPositionNormalTexture(new Vector3(-w/2, h, d), new Vector3(0, 1, 0), new Vector2(0.25f, 0f)),
+                new VertexPositionNormalTexture(new Vector3(w/2, h, d), new Vector3(0, 1, 0), new Vector2(0.75f, 0f)),
 
-                new VertexPositionTexture(new Vector3(-w/2, h, -d), new Vector2(0.25f, 1f)),
-                new VertexPositionTexture(new Vector3(w/2, h, d), new Vector2(0.75f, 0f)),
-                new VertexPositionTexture(new Vector3(w/2, h, -d), new Vector2(0.75f, 1f)),
+                new VertexPositionNormalTexture(new Vector3(-w/2, h, -d), new Vector3(0, 1, 0), new Vector2(0.25f, 1f)),
+                new VertexPositionNormalTexture(new Vector3(w/2, h, d), new Vector3(0, 1, 0), new Vector2(0.75f, 0f)),
+                new VertexPositionNormalTexture(new Vector3(w/2, h, -d), new Vector3(0, 1, 0), new Vector2(0.75f, 1f)),
 
                 // Left Side
-                new VertexPositionTexture(new Vector3(-w, h, d/2), new Vector2(0.0f, 0.15f)),
-                new VertexPositionTexture(new Vector3(-w/2, h, d), new Vector2(0.25f, 0.0f)),
-                new VertexPositionTexture(new Vector3(-w, h, -d/2), new Vector2(0.0f, 0.75f)),
+                new VertexPositionNormalTexture(new Vector3(-w, h, d/2), new Vector3(0, 1, 0), new Vector2(0.0f, 0.25f)),
+                new VertexPositionNormalTexture(new Vector3(-w/2, h, d), new Vector3(0, 1, 0), new Vector2(0.25f, 0.0f)),
+                new VertexPositionNormalTexture(new Vector3(-w, h, -d/2), new Vector3(0, 1, 0), new Vector2(0.0f, 0.75f)),
 
-                new VertexPositionTexture(new Vector3(-w, h, -d/2), new Vector2(0.0f, 0.75f)),
-                new VertexPositionTexture(new Vector3(-w/2, h, d), new Vector2(0.25f, 0.0f)),
-                new VertexPositionTexture(new Vector3(-w/2, h, -d), new Vector2(0.25f, 1.0f)),
+                new VertexPositionNormalTexture(new Vector3(-w, h, -d/2), new Vector3(0, 1, 0), new Vector2(0.0f, 0.75f)),
+                new VertexPositionNormalTexture(new Vector3(-w/2, h, d), new Vector3(0, 1, 0), new Vector2(0.25f, 0.0f)),
+                new VertexPositionNormalTexture(new Vector3(-w/2, h, -d), new Vector3(0, 1, 0), new Vector2(0.25f, 1.0f)),
 
                 // Right Side
-                new VertexPositionTexture(new Vector3(w, h, d/2), new Vector2(1.0f, 0.25f)),
-                new VertexPositionTexture(new Vector3(w, h, -d/2), new Vector2(1.0f, 0.75f)),
-                new VertexPositionTexture(new Vector3(w/2, h, d), new Vector2(0.75f, 0.0f)),
+                new VertexPositionNormalTexture(new Vector3(w, h, d/2), new Vector3(0, 1, 0), new Vector2(1.0f, 0.25f)),
+                new VertexPositionNormalTexture(new Vector3(w, h, -d/2), new Vector3(0, 1, 0), new Vector2(1.0f, 0.75f)),
+                new VertexPositionNormalTexture(new Vector3(w/2, h, d), new Vector3(0, 1, 0), new Vector2(0.75f, 0.0f)),
                 
-                new VertexPositionTexture(new Vector3(w, h, -d/2), new Vector2(1.0f, 0.75f)),
-                new VertexPositionTexture(new Vector3(w/2, h, -d), new Vector2(0.75f, 1.0f)),
-                new VertexPositionTexture(new Vector3(w/2, h, d), new Vector2(0.75f, 0.0f)),
+                new VertexPositionNormalTexture(new Vector3(w, h, -d/2), new Vector3(0, 1, 0), new Vector2(1.0f, 0.75f)),
+                new VertexPositionNormalTexture(new Vector3(w/2, h, -d), new Vector3(0, 1, 0), new Vector2(0.75f, 1.0f)),
+                new VertexPositionNormalTexture(new Vector3(w/2, h, d), new Vector3(0, 1, 0), new Vector2(0.75f, 0.0f)),
             };
 
             // Create the beast

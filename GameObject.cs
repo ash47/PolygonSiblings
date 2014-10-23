@@ -61,6 +61,13 @@ namespace Project
                     TextureEnabled = true,
                     VertexColorEnabled = false
                 };
+
+                // Setup lighting
+                basicEffect.LightingEnabled = true;
+                basicEffect.AmbientLightColor = new Vector3(0.5f, 0.5f, 0.5f);
+                basicEffect.DirectionalLight0.DiffuseColor = new Vector3(0.5f, 0.5f, 0.5f);
+                basicEffect.DirectionalLight0.SpecularColor = new Vector3(0.75f, 0.75f, 0.75f);
+                basicEffect.DirectionalLight0.Direction = new Vector3(-0.5f, -1f, 0.5f);
             }
         }
 

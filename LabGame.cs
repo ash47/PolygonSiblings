@@ -29,6 +29,7 @@ using Box2DX.Dynamics;
 using Box2DX.Collision;
 using Box2DX.Common;
 using NLua;
+using System.Diagnostics;
 
 
 namespace Project
@@ -66,15 +67,29 @@ namespace Project
         // Random number generator
         public Random random;
 
+        // Number of players left
+        public int playersLeft;
+
         // Lua stuff
         Lua lua;
 
         // The physics world
         World world;
 
+        // Should the camera rotate
+        public Boolean shouldCamRot;
+
         // Physics settings
         private static int velocityIterations = 8;
         private static int positionIterations = 1;
+
+        // The control types
+        public int[] controlTypes;
+
+        // Used for the onscreen controls
+        public Boolean[] onscreenControls;
+
+        public Controls controls;
 
         public bool started = false;
         /// <summary>
@@ -115,32 +130,19 @@ namespace Project
             removedGameObjects = new Stack<GameObject>();
             characters = new List<CharacterClass>();
 
-            // Create the physics world
-            AABB worldAABB = new AABB();
-            worldAABB.LowerBound.Set(-100.0f);
-            worldAABB.UpperBound.Set(100.0f);
-            world = new World(worldAABB, new Vec2(0.0f, -10.0f), true);
-
-            // Setup collision handler
-            world.SetContactListener(new Collisions(this));
+            // Control types
+            controlTypes = new int[4];
+            onscreenControls = new Boolean[4];
+            shouldCamRot = false;
+            
+            // Init controls
+            this.controls = new Controls(this);
 
             // Setup Lua
             initLua();
 
-            // Create a player
-            Player player = new Player(this, 0, 0, new Vec2(4, 0));
-            gameObjects.Add(player);
-
-            Player player2 = new Player(this, 1, 0, new Vec2(-4, 0));
-            gameObjects.Add(player2);
-            //player2.getBody().SetPosition(new Vec2(-4, 0));
-
-            // Create the level
-            Wall wall = new FinalDestination(this, new Vector3(0, -4, 0));
-            gameObjects.Add(wall);
-
             // Add a platform
-            gameObjects.Add(new Wall(this, 30, 1, new Vector3(0, 3, 0)));
+            //gameObjects.Add(new Wall(this, 30, 1, new Vector3(0, 3, 0)));
 
             // Create an input layout from the vertices
             base.LoadContent();
@@ -161,13 +163,24 @@ namespace Project
 
                 // Instruct the world to perform a single step of simulation. It is
                 // generally best to keep the time step and iterations fixed.
-                world.Step(1/60f, velocityIterations, positionIterations);
+                world.Step(1 / 60f, velocityIterations, positionIterations);
 
                 keyboardState = keyboardManager.GetState();
                 flushAddedAndRemovedGameObjects();
-                camera.Update();
+                camera.Update(gameTime);
 
-                //accelerometerReading = input.accelerometer.GetCurrentReading();
+                // Update onscreen controls
+                mainPage.updateControls();
+    
+                // Update Accelerometer
+                if (input.accelerometer != null)
+                {
+                    accelerometerReading = input.accelerometer.GetCurrentReading();
+                }
+
+                // Update xbox controls
+                controls.update();
+
                 for (int i = 0; i < gameObjects.Count; i++)
                 {
                     gameObjects[i].Update(gameTime);
@@ -196,6 +209,11 @@ namespace Project
                 {
                     gameObjects[i].Draw(gameTime);
                 }
+            }
+            else
+            {
+                // Clears the screen with the Color.CornflowerBlue
+                GraphicsDevice.Clear(SharpDX.Color.Black);
             }
             // Handle base.Draw
             base.Draw(gameTime);
@@ -253,12 +271,17 @@ namespace Project
 
         public void OnManipulationUpdated(GestureRecognizer sender, ManipulationUpdatedEventArgs args)
         {
-            camera.pos.Z = camera.pos.Z * args.Delta.Scale;
+            cameraUpdated();
+        }
+
+        public void cameraUpdated()
+        {
+            //camera.pos.Z = camera.pos.Z * args.Delta.Scale;
             // Update camera position for all game objects
             foreach (var obj in gameObjects)
             {
                 if (obj.basicEffect != null) { obj.basicEffect.View = camera.View; }
-                obj.OnManipulationUpdated(sender, args);
+                //obj.OnManipulationUpdated(sender, args);
             }
         }
 
@@ -278,7 +301,7 @@ namespace Project
             // Copy some variables into Lua
             lua["game"] = this;
             lua["util"] = new LuaGlobals();
-            lua["controls"] = new Controls(this);
+            lua["controls"] = this.controls;
 
             // Run the setup
             lua.DoFile("Content/lua/init.lua");
@@ -320,9 +343,119 @@ namespace Project
         }
 
         // Updates the damage for the given player
-        public void updateDamage(int playerID, ushort damage)
+        public void updateDamage(int playerID, ushort damage, int lives)
         {
-            mainPage.UpdateDamage(playerID, damage);
+            mainPage.UpdateDamage(playerID, damage, lives);
+        }
+
+        public void startMatch()
+        {
+            // Cleanup old world
+            if(world != null)
+            {
+                world.Dispose();
+            }
+
+            // Create the physics world
+            AABB worldAABB = new AABB();
+            worldAABB.LowerBound.Set(-100.0f);
+            worldAABB.UpperBound.Set(100.0f);
+            world = new World(worldAABB, new Vec2(0.0f, -10.0f), true);
+
+            // Setup collision handler
+            world.SetContactListener(new Collisions(this));
+
+            // Reset number of players left
+            playersLeft = 0;
+
+            // Create a players
+            for (int i = 0; i < 4; i++)
+            {
+                if (controlTypes[i] < 3)
+                {
+                    Player player = new Player(this, i, 0, new Vec2(-4 + 2 * i, 0));
+                    gameObjects.Add(player);
+                }
+            }
+
+            // Create the level
+            Wall wall = new FinalDestination(this, new Vector3(0, -4, 0));
+            gameObjects.Add(wall);
+        }
+
+        public void setControls(int p1, int p2, int p3, int p4)
+        {
+            this.controlTypes[0] = p1;
+            this.controlTypes[1] = p2;
+            this.controlTypes[2] = p3;
+            this.controlTypes[3] = p4;
+        }
+
+        public Boolean isAI(int playerID)
+        {
+            return this.controlTypes[playerID] == 0;
+        }
+
+        public float getDistance(Player ply1, Player ply2)
+        {
+            return (ply1.getPosition() - ply2.getPosition()).Length();
+        }
+
+        public Player findClosePlayer(Player ply)
+        {
+            float dist = 999;
+
+            Player returnPly = null;
+
+            // Find a closer player
+            for (int i = 0; i < gameObjects.Count; i++)
+            {
+                if (gameObjects[i] is Player)
+                {
+                    Player otherPly = (Player)gameObjects[i];
+
+                    // Ensure it isn't themselves
+                    if (ply != otherPly)
+                    {
+                        float theirDist = getDistance(ply, otherPly);
+
+                        // Check distance
+                        if(theirDist < dist)
+                        {
+                            // We have a new winner!
+                            dist = theirDist;
+                            returnPly = otherPly;
+                        }
+                    }
+                }
+            }
+
+            return returnPly;
+        }
+
+        // Returns a random number
+        public float getRandom()
+        {
+            return random.NextFloat(0f, 1f);
+        }
+
+        // Checks for victory
+        public void checkVictory()
+        {
+            if(playersLeft <= 1)
+            {
+                // Find the winner
+                for (int i = 0; i < gameObjects.Count; i++)
+                {
+                    if (gameObjects[i] is Player)
+                    {
+                        Player ply = (Player) gameObjects[i];
+
+                        // Finish the game
+                        mainPage.StopGame(ply.getPlayerID());
+                    }
+                }
+            }
         }
     }
 }

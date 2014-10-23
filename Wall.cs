@@ -16,10 +16,10 @@ namespace Project
         private Body body;
 
         // The width of the wall
-        protected float width;
+        private float width;
 
         // The height of the wall
-        protected float height;
+        private float height;
 
         public Wall(LabGame game, float width, float height, Vector3 position)
         {
@@ -45,7 +45,7 @@ namespace Project
             shapeDef.Filter.CategoryBits = Collisions.CAT_WALL;
             shapeDef.Filter.MaskBits = Collisions.MASK_WALL;
             shapeDef.Filter.GroupIndex = 0;
-            shapeDef.Friction = 0;
+            shapeDef.Friction = 0.5f;
 
             // Add the shape to the body.
             body.CreateFixture(shapeDef);

@@ -21,6 +21,7 @@
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
 using SharpDX;
+using System.Diagnostics;
 
 namespace Project
 {
@@ -40,9 +41,9 @@ namespace Project
             this.Children.Add(mainMenu);
         }
 
-        public void UpdateDamage(int playerID, ushort damage)
+        public void UpdateDamage(int playerID, ushort damage, int lives)
         {
-            string msg = "Player "+(playerID+1)+"\n" + damage;
+            string msg = "Player "+(playerID+1)+"\n" + damage + "%\n"+lives+" lives";
 
             if (playerID == 0)
             {
@@ -50,15 +51,15 @@ namespace Project
             }
             else if (playerID == 1)
             {
-                txtDamage1.Text = msg;
+                txtDamage2.Text = msg;
             }
             else if (playerID == 2)
             {
-                txtDamage1.Text = msg;
+                txtDamage3.Text = msg;
             }
             else if (playerID == 3)
             {
-                txtDamage1.Text = msg;
+                txtDamage4.Text = msg;
             }
         }
 
@@ -68,12 +69,39 @@ namespace Project
         public void StartGame()
         {
             this.Children.Remove(mainMenu);
+            game.startMatch();
             game.started = true;
+        }
+
+        public void StopGame(int winnerID)
+        {
+            game.started = false;
+            mainMenu = new MainMenu(this);
+            this.Children.Add(mainMenu);
+
+            this.txtWinner.Text = "Player " + (winnerID+1) + " wins!";
         }
 
         private void txtDamage1_SelectionChanged(object sender, RoutedEventArgs e)
         {
+            
+        }
 
+        public void updateControls()
+        {
+            game.onscreenControls[0] = this.btnCmdLeft.IsPressed;
+            game.onscreenControls[1] = this.btnCmdJump.IsPressed;
+            game.onscreenControls[2] = this.btnCmdAttack.IsPressed;
+            game.onscreenControls[3] = this.btnCmdRight.IsPressed;
+        }
+
+        private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(game != null)
+            {
+                game.shouldCamRot = comboBox1.SelectedIndex == 1;
+                Debug.WriteLine(game.shouldCamRot);
+            }
         }
     }
 }

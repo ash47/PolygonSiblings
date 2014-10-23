@@ -48,7 +48,7 @@ Minimal Viable Product
  - X Get a camera setup, with a flat ground so we know it's working correctly
  - X Setup the physics library, and create some tests to verify the physics and graphics match up
  - X Get Lua installed and compiling with our project
- -  Create a basic character
+ - X Create a basic character
   - X The character's code shoud be exported to Lua as much as possible, allowing for the most modifiability as possible
   - X The character should be controllable, and shouldn't fall through the world
   - X The character won't be able to interact with other character at this stage
@@ -58,9 +58,9 @@ Minimal Viable Product
   - The level should have some platforms to jump around on
   - The level should have basic lighting
   - Lua should be used to control some aspects of the level, such as moving platforms
- - Start to add attacks / abilities to the test character
-  - Characters should be able to attack each other, and send eachother flying
-  - There should be an onscreen display to how damaged characters are
+ - X Start to add attacks / abilities to the test character
+  - X Characters should be able to attack each other, and send eachother flying
+  - X There should be an onscreen display to how damaged characters are
  - Setup gamemode specifics
   - Once all but one player has been eliminated, the game should end
   - Setup a time limit to ensure the matches don't last too long, and are quick enough to enjoy
